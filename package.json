@@ -1,0 +1,45 @@
+{
+  "name": "time-circuits",
+  "version": "1.0.0",
+  "description": "High-resolution timer for JS",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "build:umd": "webpack src/index.js dist/time-circuits.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/time-circuits.min.js",
+    "clean": "rimraf lib dist coverage",
+    "lint": "eslint src test examples",
+    "test": "mocha --compilers js:babel-register --recursive",
+    "test:watch": "npm test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andymikulski/time-circuits.git"
+  },
+  "keywords": [],
+  "author": "Andy Mikulski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andymikulski/time-circuits/issues"
+  },
+  "homepage": "https://github.com/andymikulski/time-circuits",
+  "dependencies": {
+    "raf": "^3.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.7.4",
+    "babel-eslint": "^6.0.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-es2015-classes": "^6.23.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "chai": "^3.5.0",
+    "cross-env": "^1.0.7",
+    "eslint": "^2.5.3",
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.2",
+    "webpack": "^1.12.14"
+  }
+}
