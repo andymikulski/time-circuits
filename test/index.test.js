@@ -7,6 +7,9 @@ import {
   nanoToMilli,
 } from '../src';
 
+
+let average;
+
 describe('TimeCircuits', () => {
   it('should instantiate without throwing', () => {
     const wrapper = () => {
@@ -30,18 +33,18 @@ describe('TimeCircuits', () => {
   })
 
   const intervalMs = 50;
-  let average = 0;
+  average = 0;
   for(let i = 0; i < 200; i++) {
     it('should be close to the requested time', (done) => {
-      let wasFired = null;
+      let wasFired = Date.now();
       const intervalNano = milliToNano(intervalMs);
 
       const timer = new TimeCircuits();
       timer.set(() => {
         wasFired = timer.getTimeSinceStart();
 
-        expect(wasFired).to.be.below(intervalNano + milliToNano(5));
-        expect(wasFired).to.be.above(intervalNano - milliToNano(5));
+        expect(wasFired).to.be.below(intervalNano + milliToNano(2));
+        expect(wasFired).to.be.above(intervalNano - milliToNano(2));
 
         average += wasFired;
         average = average / (i + 1);

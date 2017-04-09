@@ -58,12 +58,10 @@ export class TimeCircuits {
 		const thisTime = this.getTimeSinceStart();
 		const sinceLast = thisTime - (this.sinceLastTick || 0);
 		const hadAverageTick = !!this.averageTick;
-		this.averageTick = this.averageTick || 0;
-		this.averageTick += sinceLast;
-		this.averageTick *= hadAverageTick ? 0.5 : 1;
+		this.averageTick = ((this.averageTick || 0) + sinceLast) * (hadAverageTick ? 0.5 : 1);
 
 		this.handlers = this.handlers.map((handler) => {
-			const nanosecBottomLimit = handler.time - 2e+6; // 2ms tolerance
+			const nanosecBottomLimit = handler.time - (this.averageTick || 2e+6); // tolerance - 2ms OR the average frame tick
 			const nanosecTopLimit = handler.time;
 
 			const hasHitThisFrame = thisTime >= nanosecBottomLimit
@@ -77,8 +75,7 @@ export class TimeCircuits {
 
 			const { ignoreMissed } = this.options;
 
-			if (hasHitThisFrame
-				|| hasMissedTopLimit || willMissNextFrame) {
+			if (hasHitThisFrame || hasMissedTopLimit || willMissNextFrame) {
 				handler.func();
 				return null;
 			} else if (hasMissedTopLimit) {
